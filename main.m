@@ -1,6 +1,6 @@
 %---------------------------主程序-----------------------------------------
 %% 导入数据
-Atm_All                 =   load('C:\Users\hideo\Documents\科学训练课程\new code\Au-8.16nm.txt');
+Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-8.16nm.txt');
 Atm_Dat                 =   Atm_All(:,3:5);
 
 %% 参数区
@@ -60,7 +60,7 @@ Atm_Dat_grain           =   Atm_Dat_grain(Atm_Dat_grain(:,4)~=0,:);
 
 %% 输出图像
 figure(1);
-scatter3(Atm_Dat_grain(:,1),Atm_Dat_grain(:,2),Atm_Dat_grain(:,3),50,Atm_Dat_grain(:,4),'filled')
+scatter3(Atm_Dat_grain(:,1),Atm_Dat_grain(:,2),Atm_Dat_grain(:,3),20,Atm_Dat_grain(:,4),'filled')
 figure(2);
 histogram(Atm_Dat_grain(:,4));
 
@@ -99,7 +99,7 @@ end
 clear n
 
 %% 三角剖分画图
-n                       =   8;
+n                       =   1;
 %选择n号晶胞
 T                       =   Atm_Dat_grain_cell(:,:,n);
 Tes                     =   delaunayn(T);
