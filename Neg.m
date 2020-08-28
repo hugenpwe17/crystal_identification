@@ -1,4 +1,5 @@
-%求邻居粒子索引,[邻居索引]=Neb[坐标数据,配位数]function [neighbor]=Neg(Dat_position,parameter_conum)
+%求邻居粒子索引,[邻居索引]=Neb[坐标数据,配位数]
+function [neighbor]=Neg(Dat_position,parameter_conum)
 temp            =   Dat_position;
 neighbor        =   zeros(length(temp),1+parameter_conum);
 for i=1:length(temp)

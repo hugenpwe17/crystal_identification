@@ -83,7 +83,7 @@ end
     clear i j index Vec Vec_norm temp temp_neg
 %% 晶胞中心移向原点
 for i=1:length(Atm_Dat_grain_cell)
-    Atm_Dat_grain_cell(:,:,i)...
+    Atm_Dat_grain_cell_mod(:,:,i)...
                         =   Atm_Dat_grain_cell(:,:,i)-Atm_Dat_grain_cell(1,:,i);
 end
 clear i
@@ -91,17 +91,17 @@ clear i
 %%
 %分配晶向数组
 Atm_Dat_grain_cell_orien...
-                        =   zeros(1,3,length(Atm_Dat_grain_cell));
-for n=1:length(Atm_Dat_grain_cell)
+                        =   zeros(1,3,length(Atm_Dat_grain_cell_mod));
+for n=1:length(Atm_Dat_grain_cell_mod)
 Atm_Dat_grain_cell_orien(:,:,n)...
-                        =   Orien(n,Atm_Dat_grain_cell);
+                        =   Orien(n,Atm_Dat_grain_cell_mod);
 end
 clear n
 
 %% 三角剖分画图
 n                       =   1;
 %选择n号晶胞
-T                       =   Atm_Dat_grain_cell(:,:,n);
+T                       =   Atm_Dat_grain_cell_mod(:,:,n);
 Tes                     =   delaunayn(T);
 tetramesh(Tes,T)
 hold on
