@@ -38,7 +38,7 @@ end
 %-----------------------------------------------------------------------------
 function [Clust,isnoise]=ExpandCluster(DistMat,pt,ClusterId,Eps,MinPts,Clust)
 
-%�����ѯ
+%区域查询
 seeds=find(DistMat(:,pt)<=Eps);     %获取满足Eps的点的索引
 
 if length(seeds)<MinPts             %检测并处理噪音
@@ -50,7 +50,7 @@ else
     seeds=setxor(seeds,pt);         %去除中心点
     while ~isempty(seeds)           %开始迭代,结束条件没有满足条件的粒子
         currentP=seeds(1);
-        %������
+        %区域检测
         result=find(DistMat(:,currentP)<=Eps);
         if length(result)>=MinPts
             for i=1:length(result)
