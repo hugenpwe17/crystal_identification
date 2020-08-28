@@ -1,5 +1,4 @@
-%ÇóÁÚ¾ÓÁ£×ÓË÷Òı,[ÁÚ¾ÓË÷Òı]=Neb[×ø±êÊı¾İ,ÅäÎ»Êı]
-function [neighbor]=Neg(Dat_position,parameter_conum)
+%æ±‚é‚»å±…ç²’å­ç´¢å¼•,[é‚»å±…ç´¢å¼•]=Neb[åæ ‡æ•°æ®,é…ä½æ•°]function [neighbor]=Neg(Dat_position,parameter_conum)
 temp            =   Dat_position;
 neighbor        =   zeros(length(temp),1+parameter_conum);
 for i=1:length(temp)

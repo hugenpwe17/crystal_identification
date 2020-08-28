@@ -1,4 +1,4 @@
-%[晶相]=BAA[坐标数据]
+%[鏅剁浉]=BAA[鍧愭爣鏁版嵁]
 function [Data,Y]=BAA(data)
 Point=data;
 N=length(Point);

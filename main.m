@@ -1,32 +1,32 @@
-%---------------------------Ö÷³ÌÐò-----------------------------------------
-%% µ¼ÈëÊý¾Ý
+%---------------------------ä¸»ç¨‹åº-----------------------------------------
+%% å¯¼å…¥æ•°æ®
 Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-8.16nm.txt');
 Atm_Dat                 =   Atm_All(:,3:5);
 
-%% ²ÎÊýÇø
+%% å‚æ•°åŒº
 parameter_N             =   length(Atm_All);
-%Á£×ÓÊý
+%ç²’å­æ•°
 parameter_latconst      =   4.0783;
-%¾§¸ñ³£Êý
+%æ™¶æ ¼å¸¸æ•°
 parameter_conum         =   12;
-%ÅäÎ»Êý
+%é…ä½æ•°
 parameter_Phase         =   2;
-%¾§Ïà (1=BCC;2=FCC;3=HCP)
+%æ™¶ç›¸ (1=BCC;2=FCC;3=HCP)
 parameter_corfac        =   1.2;
 parameter_Eps           =   (parameter_latconst/sqrt(2))*parameter_corfac;
-%ËÑË÷°ë¾¶Eps(&a/sqrt(2)=FCC,BCC;?=HCP)
+%æœç´¢åŠå¾„Eps(&a/sqrt(2)=FCC,BCC;?=HCP)
 parameter_MinPts     	=   parameter_conum;
-%?ÃÜ¶ÈãÐÖµ(4=FCC,5=BCC,?=HCP)
+%?å¯†åº¦é˜ˆå€¼(4=FCC,5=BCC,?=HCP)
 
-%% Ê¶±ð¾§Ïà(1=BCC,2=FCC,3=HCP,0=Other)
+%% è¯†åˆ«æ™¶ç›¸(1=BCC,2=FCC,3=HCP,0=Other)
 Atm_Dat                 =   BAA(Atm_Dat);
-%´Ë³ÌÐòÔËÐÐÊ±¼ä½Ï¾Ã,µ«Ö»ÐèÔËÐÐÒ»´Î,Ö®ºóÖØ¸´²Ù×÷ºó¿É×¢ÊÍ
+%æ­¤ç¨‹åºè¿è¡Œæ—¶é—´è¾ƒä¹…,ä½†åªéœ€è¿è¡Œä¸€æ¬¡,ä¹‹åŽé‡å¤æ“ä½œåŽå¯æ³¨é‡Š
 Atm_Dat_single          =   Atm_Dat(Atm_Dat(:,4)==parameter_Phase,:);
 
-%% µ¥Ïà¾§ÌåÁÚ¾ÓÁ£×Ó
+%% å•ç›¸æ™¶ä½“é‚»å±…ç²’å­
 Atm_Dat_single_neg=Neg(Atm_Dat_single,parameter_conum);
 
-%% Ïû³ý¾§½ç´¦Ô­×Ó,·½±ã¾ÛÀà
+%% æ¶ˆé™¤æ™¶ç•Œå¤„åŽŸå­,æ–¹ä¾¿èšç±»
 
 temp                    =   Atm_Dat_single;
 Atm_Dat_single_pair     =   zeros(length(temp),1);
@@ -37,7 +37,7 @@ for n                   =   1:length(temp)
         for j=i+1:1+parameter_conum
             cos_nij     =   dot(Vec(i,:),Vec(j,:))/norm(Vec(i,:))/norm(Vec(j,:));
             if ((cos_nij>=-1.0)&&(cos_nij<-0.945))
-                %Çó(-1.000,-0.945)½Ç¶ÈÓàÏÒ·Ö²¼
+                %æ±‚(-1.000,-0.945)è§’åº¦ä½™å¼¦åˆ†å¸ƒ
                 Atm_Dat_single_pair(n)     =   Atm_Dat_single_pair(n)+1;
             end
         end
@@ -47,24 +47,24 @@ clear temp n i j V cos_nij
 
 Atm_Dat_grain           =   unique(Atm_Dat_single...
     (Atm_Dat_single_neg(Atm_Dat_single_pair==(parameter_conum/2),:),:),'rows');
-%½«Êý¾Ý¼¯ÖÐ»¯
+%å°†æ•°æ®é›†ä¸­åŒ–
 
-%% ÌáÈ¡¾§Á£
+%% æå–æ™¶ç²’
 temp                    =   Atm_Dat_grain(:,1:3);
 dis_mat                 =   p_norm(length(temp),temp,2);
 Atm_Dat_grain(:,4)      =   DBSCAN(dis_mat,parameter_Eps,parameter_MinPts);
 clear temp dis_mat
-%DBSCANÊ¶±ð¾§Á£
+%DBSCANè¯†åˆ«æ™¶ç²’
 Atm_Dat_grain           =   Atm_Dat_grain(Atm_Dat_grain(:,4)~=0,:);
-%È¥³ýÔëÒôµã
+%åŽ»é™¤å™ªéŸ³ç‚¹
 
-%% Êä³öÍ¼Ïñ
+%% è¾“å‡ºå›¾åƒ
 figure(1);
 scatter3(Atm_Dat_grain(:,1),Atm_Dat_grain(:,2),Atm_Dat_grain(:,3),20,Atm_Dat_grain(:,4),'filled')
 figure(2);
 histogram(Atm_Dat_grain(:,4));
 
-%% Çó¸÷¾§Á£µÄ×î¶Ô³Æ¾§°û
+%% æ±‚å„æ™¶ç²’çš„æœ€å¯¹ç§°æ™¶èƒž
 Atm_Dat_grain_cell      =   zeros(parameter_conum+1,3,max(Atm_Dat_grain(:,4)));
 for i=1:max(Atm_Dat_grain(:,4))
     temp                =   Atm_Dat_grain(Atm_Dat_grain(:,4)==i,:);
@@ -74,14 +74,14 @@ for i=1:max(Atm_Dat_grain(:,4))
         Vec             =   temp(temp_neg(j,:),1:3);
         Vec             =   Vec-Vec(1,:);
         Vec_norm(j)     =   norm(sum(Vec));
-        %ÖÐÐÄ¶Ô³Æ²ÎÊý
+        %ä¸­å¿ƒå¯¹ç§°å‚æ•°
     end
     index               =   Vec_norm==min(Vec_norm);
     Atm_Dat_grain_cell(:,:,i)  ... 
                         =   temp(temp_neg(index,:),1:3);
 end
     clear i j index Vec Vec_norm temp temp_neg
-%% ¾§°ûÖÐÐÄÒÆÏòÔ­µã
+%% æ™¶èƒžä¸­å¿ƒç§»å‘åŽŸç‚¹
 for i=1:length(Atm_Dat_grain_cell)
     Atm_Dat_grain_cell(:,:,i)...
                         =   Atm_Dat_grain_cell(:,:,i)-Atm_Dat_grain_cell(1,:,i);
@@ -89,7 +89,7 @@ end
 clear i
 
 %%
-%·ÖÅä¾§ÏòÊý×é
+%åˆ†é…æ™¶å‘æ•°ç»„
 Atm_Dat_grain_cell_orien...
                         =   zeros(1,3,length(Atm_Dat_grain_cell));
 for n=1:length(Atm_Dat_grain_cell)
@@ -98,9 +98,9 @@ Atm_Dat_grain_cell_orien(:,:,n)...
 end
 clear n
 
-%% Èý½ÇÆÊ·Ö»­Í¼
+%% ä¸‰è§’å‰–åˆ†ç”»å›¾
 n                       =   1;
-%Ñ¡ÔñnºÅ¾§°û
+%é€‰æ‹©nå·æ™¶èƒž
 T                       =   Atm_Dat_grain_cell(:,:,n);
 Tes                     =   delaunayn(T);
 tetramesh(Tes,T)

@@ -1,6 +1,6 @@
-%[¾àÀë¾ØÕó]=p_norm[Á£×ÓÊý,×ø±êÊý¾Ý,·¶Êý½×Êý]
-%Çó¿Õ¼äÖÐµãÕóµÄÁ½Á½µãÖ®¼äµÄ·¶Êý
-%p³£È¡2,ÒÔ±íÊ¾¾àÀë
+%[è·ç¦»çŸ©é˜µ]=p_norm[ç²’å­æ•°,åæ ‡æ•°æ®,èŒƒæ•°é˜¶æ•°]
+%æ±‚ç©ºé—´ä¸­ç‚¹é˜µçš„ä¸¤ä¸¤ç‚¹ä¹‹é—´çš„èŒƒæ•°
+%på¸¸å–2,ä»¥è¡¨ç¤ºè·ç¦»
 
 function [dis_mat]=p_norm(N,data,p)
     dis_mat=zeros(N,N);
