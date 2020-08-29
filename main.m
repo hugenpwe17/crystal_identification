@@ -1,6 +1,6 @@
 %---------------------------主程序-----------------------------------------
 %% 导入数据
-Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-sphere_diameter9.792nm-nvt-room.xyz');
+Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-sphere_diameter4.896nm-nvt-room.xyz');
 Atm_Dat                 =   Atm_All(:,3:5);
 
 %% 参数区
@@ -82,7 +82,7 @@ for i=1:max(Atm_Dat_grain(:,4))
 end
     clear i j index Vec Vec_norm temp temp_neg
 %% 晶胞中心移向原点
-for i=1:length(Atm_Dat_grain_cell)
+for i=1:size(Atm_Dat_grain_cell,3)
     Atm_Dat_grain_cell_mod(:,:,i)...
                         =   Atm_Dat_grain_cell(:,:,i)-Atm_Dat_grain_cell(1,:,i);
 end
@@ -91,8 +91,8 @@ clear i
 %%
 %分配晶向数组
 Atm_Dat_grain_cell_orien...
-                        =   zeros(1,3,length(Atm_Dat_grain_cell_mod));
-for n=1:length(Atm_Dat_grain_cell_mod)
+                        =   zeros(1,3,size(Atm_Dat_grain_cell_mod,3));
+for n=1:size(Atm_Dat_grain_cell_mod,3)
 Atm_Dat_grain_cell_orien(:,:,n)...
                         =   Orien(n,Atm_Dat_grain_cell_mod);
 end
