@@ -1,6 +1,6 @@
 %---------------------------主程序-----------------------------------------
 %% 导入数据
-Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-sphere_diameter4.896nm-nvt-room.xyz');
+Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-8.16nm.txt');
 Atm_Dat                 =   Atm_All(:,3:5);
 
 %% 参数区
