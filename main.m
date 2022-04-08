@@ -1,6 +1,6 @@
 %---------------------------主程序-----------------------------------------
 %% 导入数据
-Atm_All                 =   load('C:\Users\Administrator\Documents\MATLAB\crystal_shan\data\Au-8.16nm.txt');
+Atm_All                 =   load('data/Au-8.16nm.txt');
 Atm_Dat                 =   Atm_All(:,3:5);
 
 %% 参数区
@@ -20,13 +20,13 @@ parameter_MinPts     	=   parameter_conum;
 
 %% 识别晶相(1=BCC,2=FCC,3=HCP,0=Other)
 Atm_Dat                 =   BAA(Atm_Dat);
-%此程序运行时间较久,但只需运行一次,之后重复操作后可注释
+%此程序运行时间较久
 Atm_Dat_single          =   Atm_Dat(Atm_Dat(:,4)==parameter_Phase,:);
 
 %% 单相晶体邻居粒子
 Atm_Dat_single_neg=Neg(Atm_Dat_single,parameter_conum);
 
-%% 消除晶界处原子,方便聚类
+%% 消除晶界处原子
 
 temp                    =   Atm_Dat_single;
 Atm_Dat_single_pair     =   zeros(length(temp),1);
@@ -99,12 +99,11 @@ end
 clear n
 
 %% 三角剖分画图
-n                       =   1;
 %选择n号晶胞
+n                       =   1;
 T                       =   Atm_Dat_grain_cell_mod(:,:,n);
 Tes                     =   delaunayn(T);
 tetramesh(Tes,T)
 hold on
 quiver3(0,0,0,Atm_Dat_grain_cell_orien(:,1,n),Atm_Dat_grain_cell_orien(:,2,n),Atm_Dat_grain_cell_orien(:,3,n))
 clear n T Tes
-
