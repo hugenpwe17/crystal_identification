@@ -1,43 +1,42 @@
 %---------------------------主程序-----------------------------------------
-%% 导入数据
 % Atm_All 是原始数据
-% Atm_Dat 是提取的坐标数据
-Atm_All = load('data/Au-8.16nm.txt');
-Atm_Dat = Atm_All(:,3:5);
+Atm_Dat 是提取的坐标数据
+%% 导入数据
+Atm_All                 =   load('data/Au-8.16nm.txt');
+Atm_Dat                 =   Atm_All(:,3:5);
 
 %% 参数区
-% Atm_Dat里面包含的粒子总数
-parameter_N = length(Atm_All);
-% 在lammps的in文件中定义的晶格常数
-parameter_lat_const = 4.0783;
-% 所要检索的目标结构的配位数 (BCC=>8(14);FCC=>12;HCP=>12)
-parameter_coord_num = 12;
-% 所要检索的目标结构的晶相类型 (BCC=>1;FCC=>2;HCP=>3)
-parameter_phase_type = 2;
-% 检索半径修正因子
-parameter_correction_factor = 1.2;
-% 检索半径(聚类方法)
-parameter_Eps = (parameter_lat_const / sqrt(2) ) * parameter_correction_factor;
-% 密度阈值
-parameter_MinPts = parameter_coord_num;
+parameter_N             =   length(Atm_All);
+%粒子数
+parameter_latconst      =   4.0783;
+%晶格常数
+parameter_conum         =   12;
+%配位数
+parameter_Phase         =   2;
+%晶相 (1=BCC;2=FCC;3=HCP)
+parameter_corfac        =   1.2;
+parameter_Eps           =   (parameter_latconst/sqrt(2))*parameter_corfac;
+%搜索半径Eps(&a/sqrt(2)=FCC,BCC;?=HCP)
+parameter_MinPts     	=   parameter_conum;
+%?密度阈值(4=FCC,5=BCC,?=HCP)
 
-%% 识别晶相
-% 此程序运行时间较久
-Atm_Dat = BAA(Atm_Dat);
-% 提取单相结构(1=>BCC,2=>FCC,3=>HCP,0=>Other)
-Atm_Dat_single = Atm_Dat(Atm_Dat(:,4)==parameter_phase_type,:);
+%% 识别晶相(1=BCC,2=FCC,3=HCP,0=Other)
+Atm_Dat                 =   BAA(Atm_Dat);
+%此程序运行时间较久
+Atm_Dat_single          =   Atm_Dat(Atm_Dat(:,4)==parameter_Phase,:);
 
 %% 单相晶体邻居粒子
-Atm_Dat_single_neg = Neg(Atm_Dat_single, parameter_coord_num);
+Atm_Dat_single_neg=Neg(Atm_Dat_single,parameter_conum);
 
 %% 消除晶界处原子
+
 temp                    =   Atm_Dat_single;
 Atm_Dat_single_pair     =   zeros(length(temp),1);
 for n                   =   1:length(temp)
     Vec                 =   temp(Atm_Dat_single_neg(n,:),:);
     Vec                 =   Vec-Vec(1,:);
-    for i=2:1+parameter_coord_num
-        for j=i+1:1+parameter_coord_num
+    for i=2:1+parameter_conum
+        for j=i+1:1+parameter_conum
             cos_nij     =   dot(Vec(i,:),Vec(j,:))/norm(Vec(i,:))/norm(Vec(j,:));
             if ((cos_nij>=-1.0)&&(cos_nij<-0.945))
                 %求(-1.000,-0.945)角度余弦分布
@@ -49,7 +48,7 @@ end
 clear temp n i j V cos_nij 
 
 Atm_Dat_grain           =   unique(Atm_Dat_single...
-    (Atm_Dat_single_neg(Atm_Dat_single_pair==(parameter_coord_num/2),:),:),'rows');
+    (Atm_Dat_single_neg(Atm_Dat_single_pair==(parameter_conum/2),:),:),'rows');
 %将数据集中化
 
 %% 提取晶粒
@@ -68,10 +67,10 @@ figure(2);
 histogram(Atm_Dat_grain(:,4));
 
 %% 求各晶粒的最对称晶胞
-Atm_Dat_grain_cell      =   zeros(parameter_coord_num+1,3,max(Atm_Dat_grain(:,4)));
+Atm_Dat_grain_cell      =   zeros(parameter_conum+1,3,max(Atm_Dat_grain(:,4)));
 for i=1:max(Atm_Dat_grain(:,4))
     temp                =   Atm_Dat_grain(Atm_Dat_grain(:,4)==i,:);
-    temp_neg            =   Neg(temp,parameter_coord_num);
+    temp_neg            =   Neg(temp,parameter_conum);
     Vec_norm            =   zeros(1,length(temp));
     for j=1:length(temp)
         Vec             =   temp(temp_neg(j,:),1:3);
