@@ -1,14 +1,14 @@
-# crystal_identification
-从点阵数据中分析金属晶体的结构
-
-## 缩写:
-BAA: Bond angle analysis
-DBSCAN: Density-based spatial clustering of applications with noise
-BAAm: Bond angle anaysis(modification)
-CSP: Center symmetry parameter
+# crystal_identification  
+从点阵数据中分析金属晶体的结构  
 
 ## 备注:  
-1.BBAm.m文件里面使用的pdist函数, 需要在matlab的附加功能里面安装Statistics and Machine Learning Toolbox  
+BBAm.m文件里面使用的pdist函数, 需要在matlab的附加功能里面安装Statistics and Machine Learning Toolbox  
+
+## 缩写:
+BAA: Bond angle analysis  
+DBSCAN: Density-based spatial clustering of applications with noise  
+BAAm: Bond angle anaysis(modification)  
+CSP: Center symmetry parameter  
   
 ## .m文件介绍：  
 main.m: 主要的脚本程序,所有的函数都在这里执行  
